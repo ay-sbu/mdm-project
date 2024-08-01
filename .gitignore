@@ -4,3 +4,4 @@ free.txt
 *env
 *.pyc
 temp
+*.dtmp
