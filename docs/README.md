@@ -4,11 +4,11 @@
 
 ### Architecture
 
-![fig](./figs/Screenshot_2024-08-01_12-11-31.png)
+![fig](./figs/architecture.png)
 
 ### Models
 
-![fig](./figs/Screenshot_2024-08-01_12-10-44.png)
+![fig](./figs/database-model.png)
 
 - Entities
   - User (django default)
