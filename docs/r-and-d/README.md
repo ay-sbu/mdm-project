@@ -17,6 +17,15 @@
 
 ### Technologies
 
+- possible choices
+  - WebRTC
+  - MQTT
+  - Celery
+
+#### WebRTC
+
+#### MQTT
+
 #### Celery
 
 - advantages
