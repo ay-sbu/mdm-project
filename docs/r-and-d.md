@@ -12,3 +12,18 @@
 ### Flyve MDM - MDM Agent for android
 
 ### OpenMDM
+
+## Real-Time Communication
+
+### Technologies
+
+#### Celery
+
+- advantages
+  - scalabitliy
+    - distributed processing is possible
+    - scale up by adding more workers
+    - big traffic handling with concurrent usage
+  - reliability
+    - verifying message delivery
+    - retrying to send messages
