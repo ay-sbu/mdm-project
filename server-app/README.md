@@ -2,9 +2,17 @@
 
 ## How to Run
 
-```shell
-pythone manage.py runserver <ip>:<port>
-```
+- running django server
+
+    ```shell
+    pythone manage.py runserver <ip>:<port>
+    ```
+
+- running uvicorn server
+
+    ```shell
+    uvicorn config.asgi:application --port 8000 --workers 4 --log-level debug --reload
+    ```
 
 ## How Setup from first
 
@@ -60,4 +68,10 @@ pythone manage.py runserver <ip>:<port>
     ```shell
     python3 manage.py makemigrations
     python3 manage.py migrate
+    ```
+
+- how to seperate static files of default django!
+
+    ```shell
+    python3 manage.py collectstatic 
     ```

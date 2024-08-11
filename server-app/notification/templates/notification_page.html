@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="margin: 0;">
+    <div id="notif-div" style="background-color: purple;">
+    </div>
+    
+    Hello 
+
+    <script>
+        const websocketProtocol = window.location.protocol === "https:" ? "wss" : "ws";
+        const wsEndpoint = `${websocketProtocol}://${window.location.host}/ws/`;
+        const socket = new WebSocket(wsEndpoint);
+
+        socket.addEventListener("message", (event) => {
+            const messageData = JSON.parse(event.data);
+            console.log("Received Notification: ", messageData);
+            document.getElementById('notif-div').innerHTML = messageData.message;
+        });
+    </script>
+</body>
+</html>
