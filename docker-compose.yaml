@@ -3,14 +3,14 @@ version: "0.0"
 services:
   server-app:
     container_name: server-app
-    build:
-      context: ./server-app
-    command: uvicorn config.asgi:application --port 8000 --workers 4 --log-level debug --reload
+    build: ./server-app
+    network_mode: "host"
     volumes:
       - ./server-app:/usr/src/app
     env_file:
       - ./env-vars/server-app.txt # you should create this file
     ports:
       - 8000:8000
+
     # depends_on:
     #   - redis
