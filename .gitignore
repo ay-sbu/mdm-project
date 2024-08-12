@@ -5,3 +5,4 @@ free.txt
 *.pyc
 temp
 *.dtmp
+env-vars/
