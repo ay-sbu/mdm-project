@@ -16,9 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG = True
 # ALLOWED_HOSTS = []
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='abbas')
 DEBUG = os.environ.get('DEBUG', default=False) == "1"
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', default='127.0.0.1,localhost,0.0.0.0').split(',')
 
 # Application definition
 
@@ -134,6 +134,20 @@ REST_FRAMEWORK = {
 
 # Channels settings
 
+# CHANNEL_LAYERS = {
+#     "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}
+# }
+
 CHANNEL_LAYERS = {
-    "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
 }
+
+# celery settings
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "amqp://guest:guest@rabbitmq:5672/")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")

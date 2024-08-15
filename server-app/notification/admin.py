@@ -10,6 +10,7 @@ from django.urls.resolvers import URLPattern
 from django.urls import path
 
 from .models import Notification
+from .tasks import send_notification_task
 
 class SendNotificationForm(forms.Form):
     message = forms.CharField(label="Notification Message", max_length=200)
@@ -26,16 +27,18 @@ class NotificationAdmin(admin.ModelAdmin):
 
                 notification = Notification.objects.create(message=message)
                 
-                channel_layer = get_channel_layer()
-                async_to_sync(channel_layer.group_send)(
-                    "gangs",
-                    {
-                        "type": "send_notification",
-                        "message": message
-                    }
-                )
+                # channel_layer = get_channel_layer()
+                # async_to_sync(channel_layer.group_send)(
+                #     "gangs",
+                #     {
+                #         "type": "send_notification",
+                #         "message": message
+                #     }
+                # )
                 
-            return HttpResponseRedirect("../{}/".format(notification.pk))
+                send_notification_task.delay(message)
+                
+                return HttpResponseRedirect("../{}/".format(notification.pk))
         else:
             form = SendNotificationForm()
         
