@@ -16,6 +16,9 @@
 
 ## How Setup from first
 
+> make sure that you have setuped the database in correct `ip:port:username:password`
+> in `settings.py`.
+
 1. virtual environment
 
     ```shell
@@ -74,4 +77,12 @@
 
     ```shell
     python3 manage.py collectstatic 
+    ```
+
+## Docker
+
+- in docker bridge network running you should attach your command to below command:
+
+    ```shell
+    docker exec -it server-app sh -c "your command goes here"
     ```

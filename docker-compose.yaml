@@ -13,6 +13,8 @@ services:
       - ./env-vars/server-app.txt # you should create this file
     ports:
       - 8000:8000
+    networks:
+      - postgres
 
     # depends_on:
     #   - redis
@@ -38,16 +40,49 @@ services:
     environment:
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
 
-  celery-worker:
-    container_name: celery-worker
-    build:
-      context: ./server-app
-    command: celery --app=config worker -l INFO -B
+  # celery-worker:
+  #   container_name: celery-worker
+  #   build:
+  #     context: ./server-app
+  #   command: celery --app=config worker -l INFO -B
+  #   volumes:
+  #     - ./server-app:/usr/src/app
+  #     - $HOME/.cache/pip-docker/:/root/.cache/pip
+  #   env_file:
+  #     - ./env-vars/server-app.txt # you should create this file
+  #   networks:
+  #     - postgres
+
+  ########################################################################### postgres
+  db:
+    image: postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: abbas
+      POSTGRES_PASSWORD: 1
     volumes:
-      - ./server-app:/usr/src/app
-      - $HOME/.cache/pip-docker/:/root/.cache/pip
-    env_file:
-      - ./env-vars/server-app.txt # you should create this file
+      - local_pgdata:/var/lib/postgresql/data
+    networks:
+      - postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_USERNAME: abbas
+      PGADMIN_DEFAULT_EMAIL: abbas@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 1
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - postgres
+  ########################################################################### end postgres
 
   ########################################################################### elk stack
   elasticsearch:
@@ -103,8 +138,12 @@ services:
 networks:
   elk:
     driver: bridge
+  postgres:
+    driver: bridge
 
 volumes:
   test_data:
   ls_data:
   kb_data:
+  local_pgdata:
+  pgadmin-data:
