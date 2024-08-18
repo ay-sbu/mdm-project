@@ -8,11 +8,7 @@ from .models import Device, Log
 from .serializers import DeviceSerializer, LogSerializer
 
 class DeviceView(viewsets.ModelViewSet):
-    queryset = cache.get('django_model_all_devices')
-    if not queryset:
-        queryset = Device.objects.all()
-        cache.set('django_model_all_devices')
-    
+    queryset = Device.objects.all()
     serializer_class = DeviceSerializer
     permission_classes = [permissions.IsAdminUser]
 

@@ -40,11 +40,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.cache.UpdateCacheMiddleware",
+    'django.middleware.common.CommonMiddleware',
+    "django.middleware.cache.FetchFromCacheMiddleware",
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -167,3 +169,7 @@ CACHES = {
         "LOCATION": "redis://redis:6379",
     }
 }
+
+# CACHE_MIDDLEWARE_ALIAS = "server_app_redis"
+# CACHE_MIDDLEWARE_SECONDS = 3600
+CACHE_MIDDLEWARE_KEY_PREFIX = "cached_server_app_"
