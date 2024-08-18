@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.core.cache import cache
 
 from rest_framework import viewsets, permissions
 
@@ -7,7 +8,11 @@ from .models import Device, Log
 from .serializers import DeviceSerializer, LogSerializer
 
 class DeviceView(viewsets.ModelViewSet):
-    queryset = Device.objects.all()
+    queryset = cache.get('django_model_all_devices')
+    if not queryset:
+        queryset = Device.objects.all()
+        cache.set('django_model_all_devices')
+    
     serializer_class = DeviceSerializer
     permission_classes = [permissions.IsAdminUser]
 

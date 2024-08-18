@@ -15,6 +15,7 @@ services:
       - 8000:8000
     networks:
       - postgres
+      - redisnet
 
     # depends_on:
     #   - redis
@@ -31,6 +32,8 @@ services:
     image: redis:7.0.11-alpine
     ports:
       - "6379:6379"
+    networks:
+      - redisnet
 
   flower:
     image: mher/flower
@@ -40,18 +43,19 @@ services:
     environment:
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
 
-  # celery-worker:
-  #   container_name: celery-worker
-  #   build:
-  #     context: ./server-app
-  #   command: celery --app=config worker -l INFO -B
-  #   volumes:
-  #     - ./server-app:/usr/src/app
-  #     - $HOME/.cache/pip-docker/:/root/.cache/pip
-  #   env_file:
-  #     - ./env-vars/server-app.txt # you should create this file
-  #   networks:
-  #     - postgres
+  celery-worker:
+    container_name: celery-worker
+    build:
+      context: ./server-app
+    command: celery --app=config worker -l INFO -B
+    volumes:
+      - ./server-app:/usr/src/app
+      - $HOME/.cache/pip-docker/:/root/.cache/pip
+    env_file:
+      - ./env-vars/server-app.txt # you should create this file
+    networks:
+      - postgres
+      - redisnet
 
   ########################################################################### postgres
   db:
@@ -139,6 +143,8 @@ networks:
   elk:
     driver: bridge
   postgres:
+    driver: bridge
+  redisnet:
     driver: bridge
 
 volumes:
