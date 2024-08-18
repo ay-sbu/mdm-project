@@ -9,8 +9,10 @@ COPY . .
 
 RUN chmod +x entrypoint.sh
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip\
+    pip install --upgrade pip
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip3 install -r requirements.txt
 
 
 ENTRYPOINT [ "sh", "./entrypoint.sh" ]
