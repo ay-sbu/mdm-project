@@ -7,10 +7,16 @@
 
 ### curl
 
-- get token
+- add user
 
 ```shell
-curl -X POST -H 'Content-Type: application/json' -d '{"username": "abbas", "password": "1"}' -i http://127.0.0.1:8000/api/token/
+curl -X POST -H 'Content-Type: application/json' -d '{"username": "alialavi", "password": "aA1234%^"}' -i http://127.0.0.1:8000/auth/users/
+```
+
+- create refresh and access tokens:
+
+```shell
+curl -X POST -H 'Content-Type: application/json'  -d '{"username": "alialavi", "password": "aA1234%^"}'  http://127.0.0.1:8000/auth/jwt/create
 ```
 
 - get devices
