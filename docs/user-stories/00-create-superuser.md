@@ -9,8 +9,8 @@
 - process
     1. you should have access to server-app
 
-        ```shell
-        python3 manage.py createsuperuser
-        ```
+      ```shell
+      docker exec -it server-app sh -c "python3 manage.py createsuperuser"
+      ```
 
-        > after running commandd, enter username, password and email
+      > after running commandd, enter username, email and password
