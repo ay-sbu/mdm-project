@@ -24,3 +24,17 @@ curl -X POST -H 'Content-Type: application/json'  -d '{"username": "alialavi", "
 ```shell
 curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' -i http://127.0.0.1:8000/api/v1/devices/
 ```
+
+### ws
+
+- installation
+
+```shell
+pip install websockets-cli
+```
+
+- connect to websocket
+
+```shell
+ws listen ws://localhost:8000/ws/
+```

@@ -29,13 +29,13 @@ class NotificationAdmin(admin.ModelAdmin):
                 
                 # channel_layer = get_channel_layer()
                 # async_to_sync(channel_layer.group_send)(
-                #     "gangs",
+                #     "all",
                 #     {
                 #         "type": "send_notification",
                 #         "message": message
                 #     }
                 # )
-                
+                                
                 send_notification_task.delay(message)
                 
                 return HttpResponseRedirect("../{}/".format(notification.pk))

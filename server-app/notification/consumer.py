@@ -7,10 +7,12 @@ from django.template import Template, Context
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
-        await self.channel_layer.group_add("gangs", self.channel_name)
+        await self.channel_layer.group_add("all", self.channel_name)
+        print('client connected')
     
     async def disconnect(self, code):
-        await self.channel_layer.group_discard("gangs", self.channel_name)
+        await self.channel_layer.group_discard("all", self.channel_name)
+        print('client disconnected')
 
     async def send_notification(self, event):
         message = event["message"]

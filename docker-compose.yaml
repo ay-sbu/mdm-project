@@ -1,4 +1,4 @@
-version: "0.0"
+# version: "0.0"
 
 services:
   server-app:
@@ -16,6 +16,7 @@ services:
     networks:
       - postgres
       - redisnet
+      - rabbitnet
 
     # depends_on:
     #   - redis
@@ -27,6 +28,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - rabbitnet
 
   redis:
     image: redis:7.0.11-alpine
@@ -42,6 +45,8 @@ services:
       - 5555:5555
     environment:
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+    networks:
+      - rabbitnet
 
   celery-worker:
     container_name: celery-worker
@@ -56,6 +61,7 @@ services:
     networks:
       - postgres
       - redisnet
+      - rabbitnet
 
   ########################################################################### postgres
   db:
@@ -89,54 +95,54 @@ services:
   ########################################################################### end postgres
 
   ########################################################################### elk stack
-  elasticsearch:
-    image: elasticsearch:7.9.1
-    container_name: elasticsearch
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    volumes:
-      - test_data:/usr/share/elasticsearch/data/
-      - ./elk/elk-config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-    environment:
-      - discovery.type=single-node
-      - http.host=0.0.0.0
-      - transport.host=0.0.0.0
-      - xpack.security.enabled=false
-      - xpack.monitoring.enabled=false
-      - cluster.name=elasticsearch
-      - bootstrap.memory_lock=true
-    networks:
-      - elk
+  # elasticsearch:
+  #   image: elasticsearch:7.9.1
+  #   container_name: elasticsearch
+  #   ports:
+  #     - "9200:9200"
+  #     - "9300:9300"
+  #   volumes:
+  #     - test_data:/usr/share/elasticsearch/data/
+  #     - ./elk/elk-config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #   environment:
+  #     - discovery.type=single-node
+  #     - http.host=0.0.0.0
+  #     - transport.host=0.0.0.0
+  #     - xpack.security.enabled=false
+  #     - xpack.monitoring.enabled=false
+  #     - cluster.name=elasticsearch
+  #     - bootstrap.memory_lock=true
+  #   networks:
+  #     - elk
 
-  logstash:
-    image: logstash:7.9.1
-    container_name: logstash
-    ports:
-      - "5044:5044"
-      - "9600:9600"
-    volumes:
-      - ./elk/elk-config/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./elk/elk-config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ls_data:/usr/share/logstash/data
+  # logstash:
+  #   image: logstash:7.9.1
+  #   container_name: logstash
+  #   ports:
+  #     - "5044:5044"
+  #     - "9600:9600"
+  #   volumes:
+  #     - ./elk/elk-config/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+  #     - ./elk/elk-config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+  #     - ls_data:/usr/share/logstash/data
 
-    networks:
-      - elk
-    depends_on:
-      - elasticsearch
+  #   networks:
+  #     - elk
+  #   depends_on:
+  #     - elasticsearch
 
-  kibana:
-    image: kibana:7.9.1
-    container_name: kibana
-    ports:
-      - "5601:5601"
-    volumes:
-      - ./elk/elk-config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
-      - kb_data:/usr/share/kibana/data
-    networks:
-      - elk
-    depends_on:
-      - elasticsearch
+  # kibana:
+  #   image: kibana:7.9.1
+  #   container_name: kibana
+  #   ports:
+  #     - "5601:5601"
+  #   volumes:
+  #     - ./elk/elk-config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+  #     - kb_data:/usr/share/kibana/data
+  #   networks:
+  #     - elk
+  #   depends_on:
+  #     - elasticsearch
   ########################################################################### end of elk stack
 
 networks:
@@ -145,6 +151,8 @@ networks:
   postgres:
     driver: bridge
   redisnet:
+    driver: bridge
+  rabbitnet:
     driver: bridge
 
 volumes:

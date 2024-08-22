@@ -6,7 +6,7 @@ from asgiref.sync import async_to_sync
 def send_notification_task(message):
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
-        "gangs",
+        "all",
         {
             "type": "send_notification",
             "message": message
