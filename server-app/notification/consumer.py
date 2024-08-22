@@ -7,7 +7,6 @@ from django.template import Template, Context
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
-        await self.channel_layer.group_add("all", self.channel_name)
         print('client connected')
     
     async def disconnect(self, code):
@@ -15,18 +14,13 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         print('client disconnected')
         
     async def receive(self, text_data, bytes_data=None):
-        context = {
-            'message': 'testing consumer',
-        }
         user = self.scope['user']
         if (user_id := user.id):
-            print('here')
-            print(user.username)
-            context.update({'user': str(user_id)})
+            await self.channel_layer.group_add(user.username, self.channel_name)
+            await self.send(text_data="Success")
         else:
-            print('there')
-            context.update({'user': None})
-        await self.send(text_data=json.dumps(context))
+            await self.send(text_data="Unathorized Access")
+            await self.disconnect()
 
     async def send_notification(self, event):
         message = event["message"]

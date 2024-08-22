@@ -44,7 +44,7 @@ class NotificationAdmin(admin.ModelAdmin):
                     # )
                                     
                     # USING CELERY
-                    send_notification_task.delay(message)
+                    send_notification_task.delay(message, selected_user.first().username)
                     
                     return HttpResponseRedirect("../{}/".format(notification.pk))
         else:
