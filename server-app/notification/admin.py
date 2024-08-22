@@ -1,9 +1,10 @@
-from asgiref.sync import async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
 
 from channels.layers import get_channel_layer
 
-from django.contrib import admin
 from django import forms
+from django.contrib import admin
+from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.urls.resolvers import URLPattern
@@ -13,7 +14,8 @@ from .models import Notification
 from .tasks import send_notification_task
 
 class SendNotificationForm(forms.Form):
-    message = forms.CharField(label="Notification Message", max_length=200)
+    message = forms.CharField(label="message", max_length=200)
+    target_user = forms.CharField(label="target_user", max_length=200)
     
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
@@ -24,23 +26,27 @@ class NotificationAdmin(admin.ModelAdmin):
             form = SendNotificationForm(request.POST)
             if form.is_valid():
                 message = form.cleaned_data["message"]
+                target_user = form.cleaned_data["target_user"]
+                
+                selected_user = User.objects.filter(username=target_user)
 
-                notification = Notification.objects.create(message=message)
-                
-                # DEBUG: NOT USING CELERY
-                # channel_layer = get_channel_layer()
-                # async_to_sync(channel_layer.group_send)(
-                #     "all",
-                #     {
-                #         "type": "send_notification",
-                #         "message": message
-                #     }
-                # )
-                                
-                # USING CELERY
-                send_notification_task.delay(message)
-                
-                return HttpResponseRedirect("../{}/".format(notification.pk))
+                if selected_user.count() > 0:
+                    notification = Notification.objects.create(message=message, target_user=selected_user.first())
+                    
+                    # DEBUG: NOT USING CELERY
+                    # channel_layer = get_channel_layer()
+                    # async_to_sync(channel_layer.group_send)(
+                    #     "all",
+                    #     {
+                    #         "type": "send_notification",
+                    #         "message": message
+                    #     }
+                    # )
+                                    
+                    # USING CELERY
+                    send_notification_task.delay(message)
+                    
+                    return HttpResponseRedirect("../{}/".format(notification.pk))
         else:
             form = SendNotificationForm()
         
