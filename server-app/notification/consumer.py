@@ -13,6 +13,20 @@ class NotificationConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, code):
         await self.channel_layer.group_discard("all", self.channel_name)
         print('client disconnected')
+        
+    async def receive(self, text_data, bytes_data=None):
+        context = {
+            'message': 'testing consumer',
+        }
+        user = self.scope['user']
+        if (user_id := user.id):
+            print('here')
+            print(user.username)
+            context.update({'user': str(user_id)})
+        else:
+            print('there')
+            context.update({'user': None})
+        await self.send(text_data=json.dumps(context))
 
     async def send_notification(self, event):
         message = event["message"]
