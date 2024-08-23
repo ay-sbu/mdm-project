@@ -12,7 +12,7 @@ class Device(models.Model):
     # updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return "{Device: name: " + self.device_name + ", user: " + self.device_user.username + "}"
+        return self.device_user.username + "'s " + self.device_name 
 
 class Log(models.Model):
     log_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -21,4 +21,24 @@ class Log(models.Model):
     # created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
-        return "{Log: kind: " + self.log_level + ", content: " + self.message + "}"
+        return self.log_level + ": " + self.message
+    
+class Applicatoin(models.Model):
+    app_id = models.AutoField(primary_key=True)
+    app_name = models.CharField(max_length=50)
+    version = models.CharField(max_length=50)
+    status = models.CharField(max_length=50)
+    device_id = models.ForeignKey(Device, on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return self.app_name + " in " + Device.objects.get(device_id=self.device_id)
+
+class Command(models.Model):
+    command_id = models.AutoField(primary_key=True)
+    command_type = models.CharField(max_length=50)
+    command_message = models.TextField()
+    status = models.CharField(max_length=50)
+    device_id = models.ForeignKey(Device, on_delete=models.DO_NOTHING)
+    
+    def __str__(self) -> str:
+        return self.command_type + ': ' + self.command_message + " for " + Device.objects.get(device_id=self.device_id)
