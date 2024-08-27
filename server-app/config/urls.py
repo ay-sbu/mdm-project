@@ -3,7 +3,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from adminplus.sites import AdminSitePlus
+
 from notification.consumer import NotificationConsumer
+
+admin.site = AdminSitePlus()
+admin.autodiscover()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
