@@ -23,21 +23,28 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', default='127.0.0.1,localhost,0.0
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin.apps.SimpleAdminConfig',
+    # core apps
     # 'django.contrib.admin',
+    'django.contrib.admin.apps.SimpleAdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # third-party apps
     'rest_framework',
     'rest_framework.authtoken',
+    'djoser',
+    'adminplus',
+    
+    # my apps
     'api',
     'notification',
     'logmanager',
+
+    # specific dependencies apps
     'channels',
-    'djoser',
-    'adminplus'
 ]
 
 MIDDLEWARE = [
