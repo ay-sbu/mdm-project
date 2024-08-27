@@ -17,6 +17,7 @@ services:
       - postgres
       - redisnet
       - rabbitnet
+      - mongonet
 
     # depends_on:
     #   - redis
@@ -62,6 +63,7 @@ services:
       - postgres
       - redisnet
       - rabbitnet
+      - mongonet
 
   ########################################################################### postgres
   db:

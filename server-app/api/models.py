@@ -14,10 +14,10 @@ class Device(models.Model):
     def __str__(self) -> str:
         return self.device_user.username + "'s " + self.device_name 
 
-class Log(models.Model):
-    log_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    log_level = models.CharField(max_length=50)
-    message = models.TextField()
+# class Log(models.Model):
+#     log_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     log_level = models.CharField(max_length=50)
+#     message = models.TextField()
     # created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self) -> str:
