@@ -74,7 +74,7 @@ services:
       POSTGRES_USER: abbas
       POSTGRES_PASSWORD: 1
     volumes:
-      - local_pgdata:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
     networks:
       - postgres
 
@@ -89,7 +89,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: abbas@gmail.com
       PGADMIN_DEFAULT_PASSWORD: 1
     volumes:
-      - pgadmin-data:/var/lib/pgadmin
+      - pgadmin_data:/var/lib/pgadmin
     networks:
       - postgres
   ########################################################################### end postgres
@@ -159,5 +159,5 @@ volumes:
   test_data:
   ls_data:
   kb_data:
-  local_pgdata:
-  pgadmin-data:
+  pg_data:
+  pgadmin_data:
