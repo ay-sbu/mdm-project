@@ -11,6 +11,7 @@ admin.site = AdminSitePlus()
 admin.autodiscover()
 
 urlpatterns = [
+    path('', include('front.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path('notification/', include('notification.urls')),

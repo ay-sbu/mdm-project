@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'adminplus',
     
     # my apps
+    'front',
     'api',
     'notification',
     'logmanager',
