@@ -10,12 +10,4 @@ def logs_view(request):
     if request.method == 'GET':
         logs = list(log_model.find())
         return HttpResponse(logs)
-    if request.method == 'POST':
-        record = {
-            "scope":  "server-app",
-            "level": "INFO",
-            "message": "notif sended successfully"
-        }
-        log_model.insert_one(record)
-        return HttpResponse('new record added') 
     return HttpResponseBadRequest()

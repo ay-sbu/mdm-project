@@ -1,36 +1,9 @@
-{% extends "admin/base_site.html" %} {% block content %}
+{% extends "admin/base_site.html" %} {% block content %} {% if success %}
+<h4>Your Notification added to Sending Queue for Target User</h4>
+{% endif %}
 <h2>Send Notification</h2>
 <form method="post">
-  {% csrf_token %} {% for field in form %}
-  <div class="form-group">
-    <p>{{ field.label }}</p>
-    </p>
-      {% if field.label == "message" %}
-      <label for="{{ field.id_for_label }}">{{ message }}</label>
-      <textarea
-        class="form-control"
-        rows="5"
-        style="width: 100%"
-        name="{{ field.html_name }}"
-        id="{{ field.auto_id }}"
-      >
-                    {{ field.value }}   
-        </textarea>
-        {% elif field.label == "target_user" %}
-        <label for="{{ field.id_for_label }}">{{ target_user }}</label>
-        <textarea
-          class="form-control"
-          rows="5"
-          style="width: 100%"
-          name="{{ field.html_name }}"
-          id="{{ field.auto_id }}"
-        >
-                      {{ field.value }}   
-          </textarea>
-        {% endif %}
-    </p>
-  </div>
-  {% endfor %}
+  {% csrf_token %} {{ form }}
   <button type="submit" class="btn btn-primary">Send Notification</button>
 </form>
 {% endblock %}
