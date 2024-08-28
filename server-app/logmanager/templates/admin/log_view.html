@@ -1,0 +1,5 @@
+{% extends "admin/base_site.html" %} {% block content %}
+<h2>Logs from MongoDB</h2>
+{% csrf_token %} {% for log in logs %}
+<hr />
+{{log}} {% endfor %} {% endblock %}
