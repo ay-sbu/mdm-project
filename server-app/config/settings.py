@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # my apps
     'front',
     'api',
+    'commandar',
     'notification',
     'logmanager',
 
@@ -184,3 +185,10 @@ CACHES = {
 # CACHE_MIDDLEWARE_ALIAS = "server_app_redis"
 # CACHE_MIDDLEWARE_SECONDS = 3600
 CACHE_MIDDLEWARE_KEY_PREFIX = "cached_server_app_"
+
+# MQTT settings
+MQTT_SERVER = 'broker.emqx.io'
+MQTT_PORT = 1883
+MQTT_KEEPALIVE = 60
+MQTT_USER = ''
+MQTT_PASSWORD = ''

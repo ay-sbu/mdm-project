@@ -1,0 +1,9 @@
+{% extends "admin/base_site.html" %} {% block content %} {% if success %}
+<h4>Your Notification added to Sending Queue for Target User</h4>
+{% endif %}
+<h2>Send Notification By MQTT</h2>
+<form method="post">
+  {% csrf_token %} {{ form }}
+  <button type="submit" class="btn btn-primary">Send Notification</button>
+</form>
+{% endblock %}
