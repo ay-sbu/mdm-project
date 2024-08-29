@@ -8,7 +8,7 @@ port = 1883
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected to MQTT Broker!")
-        client.subscribe("ay/test")
+        client.subscribe("ay/commands")
     else:
         print("Failed to connect, return code {0}".format(rc))
 

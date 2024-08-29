@@ -28,7 +28,7 @@ def send_mqtt_notif_view(request):
             message = form.cleaned_data["message"]
             # topic_name = form.cleaned_data["topic_name"]
                             
-            rc, mid = mqtt_client.publish('ay/test', message)
+            rc, mid = mqtt_client.publish('ay/commands', message)
             
             form = SendMQTTNotificationForm()
             
