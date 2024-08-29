@@ -9,8 +9,8 @@ COPY . .
 
 RUN chmod +x entrypoint.sh
 
-RUN --mount=type=cache,target=/root/.cache/pip\
-    pip install --upgrade pip
+# RUN --mount=type=cache,target=/root/.cache/pip\
+#     pip install --upgrade pip
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip3 install -r requirements.txt
 
