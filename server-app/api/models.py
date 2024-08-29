@@ -20,8 +20,8 @@ class Device(models.Model):
 #     message = models.TextField()
     # created_at = models.DateTimeField(auto_now_add=True)
     
-    def __str__(self) -> str:
-        return self.log_level + ": " + self.message
+    # def __str__(self) -> str:
+    #     return self.log_level + ": " + self.message
     
 class Applicatoin(models.Model):
     app_id = models.AutoField(primary_key=True)

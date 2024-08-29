@@ -25,6 +25,12 @@ curl -X POST -H 'Content-Type: application/json'  -d '{"username": "alialavi", "
 curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' -i http://127.0.0.1:8000/api/v1/devices/
 ```
 
+- add new device
+
+```shell
+curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' -d '{"device_name": "Galaxy M12", "device_type": "Android", "os_version": "12.0"}' -i http://127.0.0.1:8000/api/v1/devices/
+```
+
 ### ws
 
 - installation
