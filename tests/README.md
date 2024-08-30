@@ -10,25 +10,42 @@
 - add user
 
 ```shell
-curl -X POST -H 'Content-Type: application/json' -d '{"username": "alialavi", "password": "aA1234%^"}' -i http://127.0.0.1:8000/auth/users/
+curl \
+    -X POST \
+    -H 'Content-Type: application/json' \
+    -d '{"username": "alialavi", "password": "aA1234%^"}' \
+    -i http://127.0.0.1:8000/auth/users/
 ```
 
 - create refresh and access tokens:
 
 ```shell
-curl -X POST -H 'Content-Type: application/json'  -d '{"username": "alialavi", "password": "aA1234%^"}'  http://127.0.0.1:8000/auth/jwt/create
+curl \
+    -X POST \
+    -H 'Content-Type: application/json' \
+    -d '{"username": "alialavi", "password": "aA1234%^"}' \
+    http://127.0.0.1:8000/auth/jwt/create
 ```
 
 - get devices
 
 ```shell
-curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' -i http://127.0.0.1:8000/api/v1/devices/
+curl \
+    -X GET \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer TOKEN' \
+    -i http://127.0.0.1:8000/api/v1/devices/
 ```
 
 - add new device
 
 ```shell
-curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' -d '{"device_name": "Galaxy M12", "device_type": "Android", "os_version": "12.0"}' -i http://127.0.0.1:8000/api/v1/devices/
+curl \
+    -X POST \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer TOKEN' \
+    -d '{"device_name": "Galaxy M12", "device_type": "Android", "os_version": "12.0"}' \
+    -i http://127.0.0.1:8000/api/v1/devices/
 ```
 
 ### ws
